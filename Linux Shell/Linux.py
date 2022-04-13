@@ -26,7 +26,7 @@ engine.setProperty('rate',170)
 def speak(str):
     engine.say(str)
     engine.runAndWait()
-
+          
 username=os.getlogin()
 pc=os.environ['COMPUTERNAME']
 print("")
@@ -52,9 +52,9 @@ while True:
         print(os.getcwd())
         print("")
     
-    elif 'ls -l' in command:
-        sentence=command.replace('ls -l ','')
-        print(os.stat(sentence))
+    # elif 'ls -l' in command:
+    #     sentence=command.replace('ls -l ','')
+    #     print(os.stat(sentence))
 
     elif 'ls' in command:
         print(os.listdir(os.getcwd()))
@@ -81,7 +81,6 @@ while True:
 
         elif 'cat>' in command:
             sentence=command.replace('cat>','')
-            key=Key.delete
             file=open(sentence,'w')
             while(True):
                 content=str(input())
@@ -94,7 +93,6 @@ while True:
 
         else:
             sentence=command.replace('cat ','')
-            key=Key.delete
             file=open(sentence,'r')
             data=file.read()
             print(data)
@@ -155,6 +153,36 @@ while True:
 
     elif 'uname' in command:
         print(platform.system())
+    
+    elif 'wc -l' in command:
+        filename=command.replace('wc -l ','')
+        f=open(filename,'r')
+        data=f.read()
+        count=0
+        for line in data.split("\n"):
+            count=count+1
+        print(count)
+        f.close()
+
+    elif 'wc -w' in command:
+        filename=command.replace('wc -w ','')
+        f=open(filename,'r')
+        data=f.read()
+        count=-1
+        for word in data.split(" "):
+            count=count+1
+        print(count)
+        f.close
+
+    elif 'wc -c' in command:
+        filename=command.replace('wc -c ','')
+        f=open(filename,'r')
+        data=f.read()
+        count=0
+        for char in data:
+            count=count+1
+        print(count)
+        f.close
     
     elif 'exit' ==command:
         exit()
