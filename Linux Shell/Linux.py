@@ -1,4 +1,5 @@
 import os
+import subprocess
 import pyttsx3
 from pynput.keyboard import Key
 import psutil
@@ -184,5 +185,26 @@ while True:
         print(count)
         f.close
     
+    elif 'clear' in command:
+        os.system('cls' if os.name == 'nt' else 'clear')
+    
+    elif 'run c' in command:
+        cmd=command.replace("run c ","")
+        subprocess.call(["gcc",cmd])
+        subprocess.call("./a.exe")
+        print("")
+
+    elif 'run j' in command:
+        cmd=command.replace("run java ","")
+        subprocess.call(["javac",cmd])
+        cmd=cmd.replace(".java","")
+        subprocess.call(["java",cmd])
+        print("")
+        
+    elif 'run py' in command:
+        cmd=command.replace("run py ","")
+        subprocess.call(["python",cmd])
+        print("")
+        
     elif 'exit' ==command:
         exit()
