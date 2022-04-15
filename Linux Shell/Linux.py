@@ -158,7 +158,7 @@ while True:
         filename=command.replace('wc -l ','')
         f=open(filename,'r')
         data=f.read()
-        count=0
+        count=-1
         for line in data.split("\n"):
             count=count+1
         print(count)
@@ -168,7 +168,7 @@ while True:
         filename=command.replace('wc -w ','')
         f=open(filename,'r')
         data=f.read()
-        count=-1
+        count=1
         for word in data.split(" "):
             count=count+1
         print(count)
@@ -178,7 +178,7 @@ while True:
         filename=command.replace('wc -c ','')
         f=open(filename,'r')
         data=f.read()
-        count=0
+        count=-2
         for char in data:
             count=count+1
         print(count)
