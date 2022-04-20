@@ -3,6 +3,7 @@ import subprocess
 import pyttsx3
 from pynput.keyboard import Key
 import psutil
+import shutil
 import datetime
 import calendar
 import platform
@@ -14,6 +15,7 @@ x=datetime.datetime.now()
 mem=[]
 cpu=[]
 lists=[]
+
 home_dir = Path.home()
 
 engine=pyttsx3.init('sapi5')
@@ -107,8 +109,11 @@ while True:
             var=folder_name
         else:
             sentence=command.replace('cd ','')
-            os.chdir(os.getcwd()+"\\"+sentence)  
-            var=var +"\\" +sentence
+            try:
+                os.chdir(os.getcwd()+"\\"+sentence)  
+                var=var +"\\" +sentence
+            except:
+                print("Not found")
     
     elif 'mkdir' in command:
         sentence=command.replace('mkdir ','')
@@ -205,6 +210,20 @@ while True:
         cmd=command.replace("run py ","")
         subprocess.call(["python",cmd])
         print("")
-        
+    
+    elif 'cp' in command:
+        sentence=command.replace('cp ','')
+        index=sentence.split(" ")
+        src=index[0]
+        dest=index[1]
+        shutil.copy(src,dest)
+
+    elif 'mv' in command:
+        sentence=command.replace('mv ','')
+        index=sentence.split(" ")
+        src=index[0]
+        dest=index[1]
+        shutil.move(src,dest)
+ 
     elif 'exit' ==command:
         exit()
