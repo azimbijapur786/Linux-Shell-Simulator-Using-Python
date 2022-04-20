@@ -55,9 +55,10 @@ while True:
         print(os.getcwd())
         print("")
     
-    # elif 'ls -l' in command:
-    #     sentence=command.replace('ls -l ','')
-    #     print(os.stat(sentence))
+    elif 'ls -l' in command:
+        sentence=command.replace('ls -l ','')
+        mask=oct(os.stat(sentence).st_mode)[-3:]
+        print(mask)
 
     elif 'ls' in command:
         print(os.listdir(os.getcwd()))
@@ -193,21 +194,21 @@ while True:
     elif 'clear' in command:
         os.system('cls' if os.name == 'nt' else 'clear')
     
-    elif 'run c' in command:
-        cmd=command.replace("run c ","")
+    elif 'exec c' in command:
+        cmd=command.replace("exec c ","")
         subprocess.call(["gcc",cmd])
         subprocess.call("./a.exe")
         print("")
 
-    elif 'run j' in command:
-        cmd=command.replace("run java ","")
+    elif 'exec j' in command:
+        cmd=command.replace("exec j ","")
         subprocess.call(["javac",cmd])
         cmd=cmd.replace(".java","")
         subprocess.call(["java",cmd])
         print("")
         
-    elif 'run py' in command:
-        cmd=command.replace("run py ","")
+    elif 'exec py' in command:
+        cmd=command.replace("exec py ","")
         subprocess.call(["python",cmd])
         print("")
     
@@ -224,6 +225,13 @@ while True:
         src=index[0]
         dest=index[1]
         shutil.move(src,dest)
- 
+
+    elif 'chmod' in command:
+        sentence=command.replace('chmod ','')
+        query=sentence.split(" ")
+        num=query[0]
+        octal=int(num,8)
+        os.chmod(query[1],octal)
+    
     elif 'exit' ==command:
         exit()
