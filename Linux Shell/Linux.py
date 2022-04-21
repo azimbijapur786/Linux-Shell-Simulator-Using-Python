@@ -228,7 +228,7 @@ while True:
             cprint(e,'red')
     
     elif 'clear' in command:
-        os.system('cls' if os.name == 'nt' else 'clear')
+        subprocess.call('cls',shell=True)
     
     elif 'exec c' in command:
         cmd=command.replace("exec c ","")

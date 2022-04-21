@@ -216,7 +216,7 @@ def commands(command):
             cprint(e,'red')
         
     if 'clear' in command:
-            os.system('cls' if os.name == 'nt' else 'clear')
+            subprocess.call('cls',shell=True)
         
     if 'exec c' in command:
         cmd=command.replace("exec c ","")
