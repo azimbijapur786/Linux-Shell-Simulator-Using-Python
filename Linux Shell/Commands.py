@@ -55,9 +55,12 @@ def commands(command):
             print("")
         
     if 'ls -l' in command:
+        try:
             sentence=command.replace('ls -l ','')
             mask=oct(os.stat(sentence).st_mode)[-3:]
             print(mask)
+        except:
+            cprint('file not found','red')
 
     if 'ls' in command:
             print(os.listdir(os.getcwd()))
@@ -72,42 +75,53 @@ def commands(command):
 
         if 'cat>>' in command:
             sentence=command.replace('cat>>','')
-            key=Key.delete
-            file=open(sentence,'a')
-            while(True):
-                content=str(input())
-                if('^C' not in content):
+            try:
+                file=open(sentence,'a')
+                while(True):
+                    content=str(input())
+                    if('^C' not in content):
                         file.write(content+"\n")
-                else:
-                    break
-            content.replace("^C","")
-            file.close()
+                    else:
+                        break
+                content.replace("^C","")
+                file.close()
+            except Exception as e:
+                cprint(e,'red')
 
         elif 'cat>' in command:
             sentence=command.replace('cat>','')
-            file=open(sentence,'w')
-            while(True):
-                content=str(input())
-                if('^C' not in content):
+            try:
+                file=open(sentence,'w')
+                while(True):
+                    content=str(input())
+                    if('^C' not in content):
                         file.write(content+"\n")
-                else:
+                    else:
                         break
-            content.replace("^C","")
-            file.close()
+                content.replace("^C","")
+                file.close()
+            except Exception as e:
+                cprint(e,'red')
 
         else:
-                sentence=command.replace('cat ','')
+            sentence=command.replace('cat ','')
+            try:
                 file=open(sentence,'r')
                 data=file.read()
                 cprint(data,'magenta')
                 file.close() 
+            except Exception as e:
+                cprint(e,'red')
 
     if 'cd' in command:
         if '..' in command:
-                sentence=command.replace('cd ','')
+            sentence=command.replace('cd ','')
+            try:
                 os.chdir(sentence)  
                 folder_name = os.path.basename(os.getcwd())
                 var=folder_name
+            except Exception as e:
+                cprint(e,'red')
         else:
             sentence=command.replace('cd ','')
             try:
@@ -132,6 +146,7 @@ def commands(command):
             
             for process in psutil.process_iter():
                 print(process.pid,"\t",round(process.memory_percent(),2),"\t",round(process.cpu_percent(),2),process.status(),process.name())
+
 
     if 'cal' in command:
             yr=x.year
@@ -162,7 +177,8 @@ def commands(command):
             print(platform.system())
         
     if 'wc -l' in command:
-            filename=command.replace('wc -l ','')
+        filename=command.replace('wc -l ','')
+        try:
             f=open(filename,'r')
             data=f.read()
             count=-1
@@ -170,78 +186,116 @@ def commands(command):
                 count=count+1
             print(count)
             f.close()
+        except Exception as e:
+            cprint(e,'red')
 
     if 'wc -w' in command:
-            filename=command.replace('wc -w ','')
+        filename=command.replace('wc -w ','')
+        try:
             f=open(filename,'r')
             data=f.read()
             count=1
             for word in data.split(" "):
                 count=count+1
             print(count)
-            f.close
+            f.close()
+        except Exception as e:
+            cprint(e,'red')
 
     if 'wc -c' in command:
-            filename=command.replace('wc -c ','')
+        filename=command.replace('wc -c ','')
+        try:
             f=open(filename,'r')
             data=f.read()
             count=-2
             for char in data:
                 count=count+1
             print(count)
-            f.close
+            f.close()
+        except Exception as e:
+            cprint(e,'red')
         
     if 'clear' in command:
             os.system('cls' if os.name == 'nt' else 'clear')
         
     if 'exec c' in command:
-            cmd=command.replace("exec c ","")
+        cmd=command.replace("exec c ","")
+        try:
             subprocess.call(["gcc",cmd])
             subprocess.call("./a.exe")
             print("")
+        except Exception as e:
+            cprint(e,'red')
 
     if 'exec j' in command:
-            cmd=command.replace("exec j ","")
+        cmd=command.replace("exec j ","")
+        try:
             subprocess.call(["javac",cmd])
             cmd=cmd.replace(".java","")
             subprocess.call(["java",cmd])
             print("")
-            
+        except Exception as e:
+            cprint(e,'red')
+
     if 'exec py' in command:
-            cmd=command.replace("exec py ","")
+        cmd=command.replace("exec py ","")
+        try:
             subprocess.call(["python",cmd])
             print("")
+        except Exception as e:
+            cprint(e,'red')
         
     if 'cp' in command:
-            sentence=command.replace('cp ','')
+        sentence=command.replace('cp ','')
+        index=sentence.split(" ")
+        try:
             index=sentence.split(" ")
             src=index[0]
             dest=index[1]
             shutil.copy(src,dest)
+        except Exception as e:
+            cprint(e,'red')
 
     if 'mv' in command:
-            sentence=command.replace('mv ','')
+        sentence=command.replace('mv ','')
+        index=sentence.split(" ")
+        try:
             index=sentence.split(" ")
             src=index[0]
             dest=index[1]
             shutil.move(src,dest)
+        except Exception as e:
+            cprint(e,'red')
 
     if 'chmod' in command:
             sentence=command.replace('chmod ','')
             query=sentence.split(" ")
-            num=query[0]
-            octal=int(num,8)
-            os.chmod(query[1],octal)
+            try:
+                num=query[0]
+                octal=int(num,8)
+                os.chmod(query[1],octal)
+            except Exception as e:
+                cprint(e,'red')
 
-    elif 'grep' in command:
+    if 'grep' in command:
         sentence=command.replace('grep ', '')
         ele=sentence.split(" ")
+        try:
+            file=open(ele[1],"r")
+            data=file.read()
 
-        file=open(ele[1],"r")
-        data=file.read()
+            for line in data.split('\n'):
+                if ele[0] in line:
+                    cprint(line,"green")
+                else:
+                    pass
+        except Exception as e:
+            cprint(e,'red')
+        
+    if 'sudo adduser' in command:
+        sentence=command.replace('sudo adduser ','net user /add ')
+        subprocess.call(sentence)
 
-        for line in data.split('\n'):
-            if ele[0] in line:
-                cprint(line,"green")
-            else:
-                pass
+    if 'sudo userdel' in command:
+        sentence=command.replace('sudo userdel ','net user /del ')
+        subprocess.call(sentence)

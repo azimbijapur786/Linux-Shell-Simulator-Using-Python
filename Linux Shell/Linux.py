@@ -34,6 +34,10 @@ def speak(str):
           
 username=os.getlogin()
 pc=os.environ['COMPUTERNAME']
+present=os.getcwd()
+temp=present.split('\\')
+n=len(temp)
+var=temp[n-1]
 print("")
 
 while True:
@@ -41,7 +45,13 @@ while True:
     cprint("$","yellow",end="")
     command=input()
 
-    if 'echo $HOME' in command:
+    if '|' in command:
+        words=command.split(" | ")
+        print(words)
+        for i in words:
+            Commands.commands(i)
+
+    elif 'echo $HOME' in command:
         home_dir_str = str( home_dir )
         print(home_dir_str)
 
@@ -58,9 +68,12 @@ while True:
         print("")
     
     elif 'ls -l' in command:
-        sentence=command.replace('ls -l ','')
-        mask=oct(os.stat(sentence).st_mode)[-3:]
-        print(mask)
+        try:
+            sentence=command.replace('ls -l ','')
+            mask=oct(os.stat(sentence).st_mode)[-3:]
+            print(mask)
+        except:
+            cprint('file not found','red')
 
     elif 'ls' in command:
         print(os.listdir(os.getcwd()))
@@ -75,42 +88,53 @@ while True:
 
         if 'cat>>' in command:
             sentence=command.replace('cat>>','')
-            key=Key.delete
-            file=open(sentence,'a')
-            while(True):
-                content=str(input())
-                if('^C' not in content):
-                    file.write(content+"\n")
-                else:
-                    break
-            content.replace("^C","")
-            file.close()
+            try:
+                file=open(sentence,'a')
+                while(True):
+                    content=str(input())
+                    if('^C' not in content):
+                        file.write(content+"\n")
+                    else:
+                        break
+                content.replace("^C","")
+                file.close()
+            except Exception as e:
+                cprint(e,'red')
 
         elif 'cat>' in command:
             sentence=command.replace('cat>','')
-            file=open(sentence,'w')
-            while(True):
-                content=str(input())
-                if('^C' not in content):
-                    file.write(content+"\n")
-                else:
-                    break
-            content.replace("^C","")
-            file.close()
+            try:
+                file=open(sentence,'w')
+                while(True):
+                    content=str(input())
+                    if('^C' not in content):
+                        file.write(content+"\n")
+                    else:
+                        break
+                content.replace("^C","")
+                file.close()
+            except Exception as e:
+                cprint(e,'red')
 
         else:
             sentence=command.replace('cat ','')
-            file=open(sentence,'r')
-            data=file.read()
-            cprint(data,'magenta')
-            file.close() 
+            try:
+                file=open(sentence,'r')
+                data=file.read()
+                cprint(data,'magenta')
+                file.close() 
+            except Exception as e:
+                cprint(e,'red')
 
     elif 'cd' in command:
         if '..' in command:
             sentence=command.replace('cd ','')
-            os.chdir(sentence)  
-            folder_name = os.path.basename(os.getcwd())
-            var=folder_name
+            try:
+                os.chdir(sentence)  
+                folder_name = os.path.basename(os.getcwd())
+                var=folder_name
+            except Exception as e:
+                cprint(e,'red')
         else:
             sentence=command.replace('cd ','')
             try:
@@ -166,106 +190,152 @@ while True:
     
     elif 'wc -l' in command:
         filename=command.replace('wc -l ','')
-        f=open(filename,'r')
-        data=f.read()
-        count=-1
-        for line in data.split("\n"):
-            count=count+1
-        print(count)
-        f.close()
+        try:
+            f=open(filename,'r')
+            data=f.read()
+            count=-1
+            for line in data.split("\n"):
+                count=count+1
+            print(count)
+            f.close()
+        except Exception as e:
+            cprint(e,'red')
 
     elif 'wc -w' in command:
         filename=command.replace('wc -w ','')
-        f=open(filename,'r')
-        data=f.read()
-        count=1
-        for word in data.split(" "):
-            count=count+1
-        print(count)
-        f.close
+        try:
+            f=open(filename,'r')
+            data=f.read()
+            count=1
+            for word in data.split(" "):
+                count=count+1
+            print(count)
+            f.close()
+        except Exception as e:
+            cprint(e,'red')
 
     elif 'wc -c' in command:
         filename=command.replace('wc -c ','')
-        f=open(filename,'r')
-        data=f.read()
-        count=-2
-        for char in data:
-            count=count+1
-        print(count)
-        f.close
+        try:
+            f=open(filename,'r')
+            data=f.read()
+            count=-2
+            for char in data:
+                count=count+1
+            print(count)
+            f.close()
+        except Exception as e:
+            cprint(e,'red')
     
     elif 'clear' in command:
         os.system('cls' if os.name == 'nt' else 'clear')
     
     elif 'exec c' in command:
         cmd=command.replace("exec c ","")
-        subprocess.call(["gcc",cmd])
-        subprocess.call("./a.exe")
-        print("")
+        try:
+            subprocess.call(["gcc",cmd])
+            subprocess.call("./a.exe")
+            print("")
+        except Exception as e:
+            cprint(e,'red')
 
     elif 'exec j' in command:
         cmd=command.replace("exec j ","")
-        subprocess.call(["javac",cmd])
-        cmd=cmd.replace(".java","")
-        subprocess.call(["java",cmd])
-        print("")
-        
+        try:
+            subprocess.call(["javac",cmd])
+            cmd=cmd.replace(".java","")
+            subprocess.call(["java",cmd])
+            print("")
+        except Exception as e:
+            cprint(e,'red')
+
     elif 'exec py' in command:
         cmd=command.replace("exec py ","")
-        subprocess.call(["python",cmd])
-        print("")
+        try:
+            subprocess.call(["python",cmd])
+            print("")
+        except Exception as e:
+            cprint(e,'red')
     
     elif 'cp' in command:
         sentence=command.replace('cp ','')
         index=sentence.split(" ")
-        src=index[0]
-        dest=index[1]
-        shutil.copy(src,dest)
+        try:
+            index=sentence.split(" ")
+            src=index[0]
+            dest=index[1]
+            shutil.copy(src,dest)
+        except Exception as e:
+            cprint(e,'red')
 
     elif 'mv' in command:
         sentence=command.replace('mv ','')
         index=sentence.split(" ")
-        src=index[0]
-        dest=index[1]
-        shutil.move(src,dest)
+        try:
+            index=sentence.split(" ")
+            src=index[0]
+            dest=index[1]
+            shutil.move(src,dest)
+        except Exception as e:
+            cprint(e,'red')
 
     elif 'chmod' in command:
         sentence=command.replace('chmod ','')
         query=sentence.split(" ")
-        num=query[0]
-        octal=int(num,8)
-        os.chmod(query[1],octal)
+        try:
+            num=query[0]
+            octal=int(num,8)
+            os.chmod(query[1],octal)
+        except Exception as e:
+            cprint("Invalid command",'red')
     
     elif 'vi' in command:
         sentence=command.replace('vi ','')
-        file=open(sentence,'w')
-        while(True):
-            content=str(input())
-            if('^C' not in content):
-                file.write(content+"\n")
-            else:
-                break
-            content.replace("^C","")
-        file.close()
+        try:
+            file=open(sentence,'w')
+            while(True):
+                content=str(input())
+                if('^C' not in content):
+                    file.write(content+"\n")
+                else:
+                    break
+                content.replace("^C","")
+            file.close()
+        except Exception as e:
+            cprint(e,'red')
         
     elif '.sh' in command:
-        file=open(command,"r")
-        data=file.read()
-        for line in data.split("\n"):
-            Commands.commands(line)
+        try:
+            file=open(command,"r")
+            data=file.read()
+            for line in data.split("\n"):
+                Commands.commands(line)
+        except Exception as e:
+            cprint(e,'red')
     
     elif 'grep' in command:
         sentence=command.replace('grep ', '')
         ele=sentence.split(" ")
+        try:
+            file=open(ele[1],"r")
+            data=file.read()
 
-        file=open(ele[1],"r")
-        data=file.read()
-
-        for line in data.split('\n'):
-            if ele[0] in line:
-                cprint(line,"green")
-            else:
-                pass
+            for line in data.split('\n'):
+                if ele[0] in line:
+                    cprint(line,"green")
+                else:
+                    pass
+        except Exception as e:
+            cprint(e,'red')
+    
+    elif 'sudo adduser' in command:
+        sentence=command.replace('sudo adduser ','net user /add ')
+        subprocess.call(sentence)
+    
+    elif 'sudo userdel' in command:
+        sentence=command.replace('sudo userdel ','net user /del ')
+        subprocess.call(sentence)
 
     elif 'exit' ==command:
         exit()
+    
