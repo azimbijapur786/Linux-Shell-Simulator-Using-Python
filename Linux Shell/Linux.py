@@ -8,9 +8,8 @@ import datetime
 import calendar
 import platform
 import Commands
+from termcolor import cprint
 from pathlib import Path
-
-from setuptools import Command
 global var
 
 var=""
@@ -38,8 +37,8 @@ pc=os.environ['COMPUTERNAME']
 print("")
 
 while True:
-    print(username+"@"+pc+"~"+var)
-    print("$",end="")
+    cprint(username+"@"+pc+"~"+var,"green")
+    cprint("$","yellow",end="")
     command=input()
 
     if 'echo $HOME' in command:
@@ -103,7 +102,7 @@ while True:
             sentence=command.replace('cat ','')
             file=open(sentence,'r')
             data=file.read()
-            print(data)
+            cprint(data,'magenta')
             file.close() 
 
     elif 'cd' in command:
@@ -118,7 +117,7 @@ while True:
                 os.chdir(os.getcwd()+"\\"+sentence)  
                 var=var +"\\" +sentence
             except:
-                print("Not found")
+                cprint("Not found","red")
     
     elif 'mkdir' in command:
         sentence=command.replace('mkdir ','')
@@ -129,7 +128,7 @@ while True:
         try:
             os.rmdir(sentence)
         except Exception as e:
-            print(e)
+            cprint(e,"red")
     
     elif 'ps' in command:
         print("PID\t","MEM\t","CPU","STATUS","PROCESS")
@@ -254,6 +253,19 @@ while True:
         data=file.read()
         for line in data.split("\n"):
             Commands.commands(line)
+    
+    elif 'grep' in command:
+        sentence=command.replace('grep ', '')
+        ele=sentence.split(" ")
+
+        file=open(ele[1],"r")
+        data=file.read()
+
+        for line in data.split('\n'):
+            if ele[0] in line:
+                cprint(line,"green")
+            else:
+                pass
 
     elif 'exit' ==command:
         exit()

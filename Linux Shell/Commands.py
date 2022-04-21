@@ -7,6 +7,7 @@ import shutil
 import datetime
 import calendar
 import platform
+from termcolor import cprint
 from pathlib import Path
 global var
 
@@ -36,9 +37,6 @@ print("")
 
 
 def commands(command):
-    # print(username+"@"+pc+"~"+var)
-    # print("$",end="")
-    # command=input()
 
     if 'echo $HOME' in command:
             home_dir_str = str( home_dir )
@@ -101,7 +99,7 @@ def commands(command):
                 sentence=command.replace('cat ','')
                 file=open(sentence,'r')
                 data=file.read()
-                print(data)
+                cprint(data,'magenta')
                 file.close() 
 
     if 'cd' in command:
@@ -116,7 +114,7 @@ def commands(command):
                     os.chdir(os.getcwd()+"\\"+sentence)  
                     var=var +"\\" +sentence
             except:
-                    print("Not found")
+                    cprint("Not found",'red')
         
     if 'mkdir' in command:
             sentence=command.replace('mkdir ','')
@@ -127,7 +125,7 @@ def commands(command):
             try:
                 os.rmdir(sentence)
             except Exception as e:
-                print(e)
+                cprint(e,'red')
         
     if 'ps' in command:
             print("PID\t","MEM\t","CPU","STATUS","PROCESS")
@@ -234,3 +232,16 @@ def commands(command):
             num=query[0]
             octal=int(num,8)
             os.chmod(query[1],octal)
+
+    elif 'grep' in command:
+        sentence=command.replace('grep ', '')
+        ele=sentence.split(" ")
+
+        file=open(ele[1],"r")
+        data=file.read()
+
+        for line in data.split('\n'):
+            if ele[0] in line:
+                cprint(line,"green")
+            else:
+                pass
