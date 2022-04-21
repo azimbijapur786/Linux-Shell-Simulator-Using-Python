@@ -7,7 +7,10 @@ import shutil
 import datetime
 import calendar
 import platform
+import Commands
 from pathlib import Path
+
+from setuptools import Command
 global var
 
 var=""
@@ -68,6 +71,7 @@ while True:
         sentence=command.replace('say','')
         speak(sentence)
     
+
     elif 'cat' in command:
 
         if 'cat>>' in command:
@@ -233,5 +237,23 @@ while True:
         octal=int(num,8)
         os.chmod(query[1],octal)
     
+    elif 'vi' in command:
+        sentence=command.replace('vi ','')
+        file=open(sentence,'w')
+        while(True):
+            content=str(input())
+            if('^C' not in content):
+                file.write(content+"\n")
+            else:
+                break
+            content.replace("^C","")
+        file.close()
+        
+    elif '.sh' in command:
+        file=open(command,"r")
+        data=file.read()
+        for line in data.split("\n"):
+            Commands.commands(line)
+
     elif 'exit' ==command:
         exit()
