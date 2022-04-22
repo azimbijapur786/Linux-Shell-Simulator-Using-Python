@@ -47,7 +47,6 @@ while True:
 
     if '|' in command:
         words=command.split(" | ")
-        print(words)
         for i in words:
             Commands.commands(i)
 
@@ -322,9 +321,9 @@ while True:
 
             for line in data.split('\n'):
                 if ele[0] in line:
-                    cprint(line,"green")
+                    cprint(line,"cyan")
                 else:
-                    pass
+                    cprint('Not found','red')
         except Exception as e:
             cprint(e,'red')
     
