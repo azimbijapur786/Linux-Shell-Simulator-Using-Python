@@ -1,7 +1,6 @@
 import os
 import subprocess
 import pyttsx3
-from pynput.keyboard import Key
 import psutil
 import shutil
 import datetime
@@ -31,6 +30,7 @@ engine.setProperty('rate',170)
 def speak(str):
     engine.say(str)
     engine.runAndWait()
+    
           
 username=os.getlogin()
 pc=os.environ['COMPUTERNAME']
@@ -323,7 +323,7 @@ while True:
                 if ele[0] in line:
                     cprint(line,"cyan")
                 else:
-                    cprint('Not found','red')
+                    pass
         except Exception as e:
             cprint(e,'red')
     
@@ -334,6 +334,23 @@ while True:
     elif 'sudo userdel' in command:
         sentence=command.replace('sudo userdel ','net user /del ')
         subprocess.call(sentence)
+    
+    elif 'help' in command:
+        try:
+            file=open('help.txt','r')
+            data=file.read()
+
+            for line in data.split("\n"):
+                cprint(line,'magenta')
+        
+        except Exception as e:
+            cprint('not found','red')
+    
+    elif 'color' in command:
+        try:
+            subprocess.call(command,shell=True)
+        except Exception as e:
+            print("invalid color")
 
     elif 'exit' ==command:
         exit()
