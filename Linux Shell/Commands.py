@@ -299,3 +299,20 @@ def commands(command):
     if 'sudo userdel' in command:
         sentence=command.replace('sudo userdel ','net user /del ')
         subprocess.call(sentence)
+    
+    if 'help' in command:
+        try:
+            file=open('help.txt','r')
+            data=file.read()
+
+            for line in data.split("\n"):
+                cprint(line,'magenta')
+        
+        except Exception as e:
+            cprint('not found','red')
+    
+    if 'color' in command:
+        try:
+            subprocess.call(command,shell=True)
+        except Exception as e:
+            print("invalid color")

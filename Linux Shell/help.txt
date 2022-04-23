@@ -1,0 +1,42 @@
+cd - to move a directory ahead
+cd .. - to move one directory before
+chmod - to change access rights
+ps - to display current processes
+ls - to list the contents of directory
+ls -l - to know the access right 
+wc - l - to know the number of lines in a file
+wc - w - to know the number of words in a file
+wc - c - to know the number of characters in a file
+pwd - to print current working directory
+cp <src> <dest> - to copy file to a location
+mv <src> <dest> - to move or rename a file
+echo $HOME - to print home directory
+echo $SHELL - to print shell name
+echo <string> - to print any string
+say <string> - to make pc speak the string
+cat <filename> - to display the file contents
+cat<filename - to write into file
+cat<<filename - to append to a file
+mkdir - to make a new directory
+rmdir - to remove or delete a directory
+ps - to get list of all the active processes
+cal - display calendar
+date - shows current date and time
+whoami - prints the username
+uname - prints the os name
+uname -a - prints all information about the os and kernel
+uname -r - prints the release number of kernel
+uname -m - prints the machine information
+uname -v - prints the version of os
+clear - to clear the terminal
+exec -c - to run C files
+exec -j - to run java files
+exec -py - to run python files
+vi - to create a shell file
+file.sh - to run a shell file
+grep - to find lines in a file having a particular string 
+sudo adduser - to add user to a system
+sudo deluser - to delete user
+exit - to close the terminal
+
+
