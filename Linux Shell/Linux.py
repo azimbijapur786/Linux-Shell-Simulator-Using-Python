@@ -258,9 +258,8 @@ while True:
     
     elif 'cp' in command:
         sentence=command.replace('cp ','')
-        index=sentence.split(" ")
         try:
-            index=sentence.split(" ")
+            index=sentence.split("  ")
             src=index[0]
             dest=index[1]
             shutil.copy(src,dest)
@@ -269,9 +268,8 @@ while True:
 
     elif 'mv' in command:
         sentence=command.replace('mv ','')
-        index=sentence.split(" ")
         try:
-            index=sentence.split(" ")
+            index=sentence.split("  ")
             src=index[0]
             dest=index[1]
             shutil.move(src,dest)
